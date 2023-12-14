@@ -1,0 +1,484 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
+*{
+    margin: 0;
+    padding: 0;
+    border: none;
+    outline: none;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+body {
+    display: flex;
+}
+.sidebar{
+    position: sticky;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 110px;
+    height: 100vh;
+    padding: 0 1.7rem;
+    color: #fff;
+    overflow: hidden;
+    transition: all 0.5s linear;
+    background: rgba(113, 99, 186, 255);
+}
+.sidebar:hover{
+    width: 240px;
+    transition: 0.5s;
+}
+.logo{
+    height: 80px;
+    padding: 16px;
+}
+.menu{
+    height: 88%;
+    position: relative;
+    list-style: none;
+    padding: 0;
+}
+.menu li{
+    padding: 1rem;
+    margin: 8px 0;
+    border-radius: 8px;
+    transition: all 0.5s ease-in-out;
+}
+
+.menu li:hover{
+    background: #e0e0e058;
+}
+.menu a{
+    color: #fff;
+    font-size: 14px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+.menu a span{
+    overflow: hidden;
+}
+
+.menu a i{
+    font-size: 1.2rem;
+}
+.logout{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
+
+/* ****main body sectio **** */
+.main--content{
+    position: relative;
+    background: #e9eaeb;
+    width: 100%;
+    padding: 1rem;
+}
+.header--wrapper img {
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    border-radius: 50%;
+
+}
+.header--wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    background: #fff;
+    border-radius: 10px;
+    padding: 10px 2rem;
+    margin-bottom: 1rem;
+}
+.header--title{
+    color: rgba(113, 99, 186, 255);
+}
+.user--info{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.search--box{
+    background: rgb(237, 237, 237);
+    border-radius: 15px;
+    color: rgba(113, 99, 186, 255);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 12px;
+}
+.search--box input {
+    background: transparent;
+    padding: 10px;
+}
+.search--box i {
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.5s ease-out;
+}
+.search--box i:hover{
+    transform: scale(1.2);
+}
+
+/* card container */
+.card--container{
+    background: #fff;
+    padding: 2rem;
+    border-radius: 10px;
+    
+}
+.card--wrapper{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: space-around;
+}
+.card--container span{
+    color: black;
+}
+.main--title{
+    color: rgba(113, 99, 186, 255);
+    padding-bottom: 10px;
+    font-size: 15px;
+}
+.payment--card{
+    background: rgb(229, 223, 223);
+    border-radius: 10px;
+    padding: 1.2rem;
+    max-width: 276px;
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.5s ease-in-out;
+    flex: 1 0 calc(25% - 10px); /* Adjust the width and margin as needed */
+    margin-bottom: 20px;
+}
+.payment--card:hover{
+    transform: translateY(-5px);
+}
+.card--header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.amount{
+    display: flex;
+    flex-direction: column;
+}
+.title{
+    font-size: 12px;
+    font-weight: 200;
+}
+.amount--value{
+    font-size: 24px;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: 600;
+}
+.icon{
+    color: #fff;
+    padding: 1rem;
+    height: 60px;
+    width: 60px;
+    text-align: center;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    background: red;
+}
+.card--detail{
+    padding: 5px;
+    font-size: 13px;
+    background-color: #ffffff;
+    letter-spacing: 2px;
+    font-family: 'Courier New', Courier, monospace;
+}
+.card--detail a{
+    text-decoration: none;
+    letter-spacing: 2px;
+    font-family: 'Courier New', Courier, monospace;
+}
+/*color css*/
+.light-red{
+    background: rgb(251, 226, 233);
+}
+.light-purple{
+    background: rgb(254, 226, 254);
+}
+.light-green{
+    background: rgb(235, 254, 235);
+}
+.light-blue{
+    background: rgb(236, 236, 254);
+}
+.dark-red{
+    background: red;
+}
+.dark-purple{
+    background: purple;
+}
+.dark-green{
+    background: green;
+}
+.dark-blue{
+    background: blue;
+}
+
+
+.tabular--wrapper{
+    background: #fff;
+    margin-top: 1rem;
+    border-radius: 10px;
+    padding: 2rem;
+}
+.tabular--wrapper span{
+    color: black;
+}
+.card-tally{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: space-around;
+}
+.chart{
+    width: 600px;
+    height: 300px;
+    display: block;
+    margin-top: 5px;
+}
+.numbers{
+    color: #777777;
+    margin: 0;
+    padding: 0;
+    width: 50px;
+    height: 100%;
+    display: inline-block;
+   /*float: left;*/
+}
+.numbers li {
+    list-style: none;
+    height: 150px;
+    position: relative;
+    bottom: 145px;
+}
+.numbers span{
+    font-size: 12px;
+    font-weight: 600;
+    position: absolute;
+    bottom: 0;
+    right: 10px;
+}
+.bars{
+    color: rgb(95, 95, 95); /*option text*/
+    font-size: 12px;
+    font-weight: 600;
+    background: #555;
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+    width: 500px;
+    height: 300px;
+    box-shadow: 0 0 10px 0 #555;
+    border-radius: 5px;
+}
+.bars li{
+    display: table-cell;
+    width: 100px;
+    height: 300px;
+    position: relative;
+}
+.bars span{
+    width: 100%;
+    position: absolute;
+    bottom: -30px;
+    text-align: center;
+}
+.bars .bar{
+    display: block;
+    background: #17C0EB;
+    width: 50px;
+    position: absolute;
+    bottom: 0;
+    margin-left: 25px;
+    text-align: center;
+    box-shadow: 0 0 10px 0 rgba(23, 192, 235, 0.5);
+    transition-property: background, box-shadow;
+}
+.bars .bar:hover{
+    background: #55EFC4;
+    box-shadow: 0 0 10px 0 rgba(85, 239, 196, 0.5);
+    cursor: pointer;
+}
+.bars .bar:before{
+    color: #fff;
+    content: attr(data-percentage) '%';
+    position: relative;
+    bottom: 20px;
+
+}
+.menu-icon{
+    cursor: pointer;
+    font-size: 24px;
+    margin-right: 20px;
+    color: #555;
+}
+.menu-icon:hover{
+    color: #333;
+}
+
+body.menu-open .sidebar {
+    width: 240px;
+    transition: width 0.5s;
+}
+
+body.menu-open .main--content {
+    margin-left: 0;
+    transition: margin-left 0.5s;
+}
+
+.sidebar span {
+    top: 50%;
+    left: 50%;
+    transform: translate(5%, 5%);
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.sidebar:hover span {
+    opacity: 1;
+}
+/* Add this to your existing CSS */
+
+body.menu-transition .sidebar {
+    width: 240px;
+    transition: width 0.5s;
+}
+
+body.menu-transition .main--content {
+    margin-left: 0;
+    transition: margin-left 0.5s;
+}
+
+body.menu-transition .sidebar span {
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* Updated hover effect for sidebar */
+body.menu-transition .sidebar:hover,
+body.menu-open .sidebar {
+    width: 240px;
+    transition: width 0.5s;
+}
+
+body.menu-transition .sidebar:hover span,
+body.menu-open .sidebar span {
+    opacity: 1;
+}
+.menu .dashboard-item {
+    display: none; /* Hide the Dashboard menu item */
+}
+
+
+
+/* CANDIDATES CSS */
+.body_candidates{
+    font-family: 'Poppins', sans-serif;
+    overflow: hidden;
+}
+.table{
+    width: 100%;
+    margin-top: 10px;
+}
+.table th{
+    background-color: #7163ba;
+    color: white;
+}
+.table_header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+}
+.table_header p{
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+    color: rgba(113, 99, 186, 255);
+    font-size: 20px;
+    font-weight: bold;
+}
+button{
+    outline: none;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    padding: 10px;
+    color: #ffffff;
+}
+.add_new{
+    padding: 10px 20px;
+    color: #ffff;
+    background-color: rgba(113, 99, 186, 255);
+}
+.input_candidates{
+    padding: 10px 20px;
+    margin: 0 10px;
+    outline: none;
+    border: 1px solid #0298cf;
+    border-radius: 6px;
+    color: #0298cf;
+}
+::placeholder{
+    color: #0298cf;
+}
+::-webkit-scrollbar{
+    height: 5px;
+    width: 5px;
+}
+::-webkit-scrollbar-track{
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+::-webkit-scrollbar-thumb{
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+.pagination{
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    padding: 10px 20px;
+
+}
+.pagination div{
+    padding: 10px;
+    border: 2px solid #d5d0d0;
+    height: 40px;
+    width: 40px;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(113, 99, 186, 255);
+    color: #ffffff;
+    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.75);
+    margin: 0 5px;
+    cursor: pointer;
+}
+li a:hover{
+    color: white;
+    text-decoration: none;
+}
+li a i{
+    color: white;
+    text-decoration: none;
+}
+span{
+    color: white;
+    text-decoration: none;
+}

@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{election_title}}</title>
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='css/w3.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='css/style.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='css/bootstrap.min.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='css/all.min.css')}}"
+    />
+  </head>
+
+  <body style="padding-top: 100px">
+    <!-- Adjust the padding-top value according to your navbar height -->
+    <div class="w3-top">
+      <div
+        class="w3-bar w3-padding w3-card"
+        style="letter-spacing: 4px; background-color: #7163ba; color: white"
+      >
+        <a
+          href="#"
+          style="margin: auto; text-decoration: none"
+          class="w3-bar-item w3-button"
+          >{{ election_title }}</a
+        >
+      </div>
+    </div>
+
+    <div class="w3-center">
+      <h1><b>{{ election_title }}</b></h1>
+    </div>
+
+    {% if error_message %}
+    <div class="container" style="margin-top: 20px">
+      <div class="row">
+        <div class="mx-auto">
+          <div class="alert alert-danger alert-dismissable text-center">
+            <button
+              type="button"
+              class="close"
+              data-dismiss="alert"
+              aria-hidden="true"
+            >
+              &times;
+            </button>
+            {{ error_message }}
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endif %} {% if success_message %}
+    <div class="container" style="margin-top: 20px">
+      <div class="row">
+        <div class="mx-auto">
+          <div class="alert alert-success alert-dismissable text-center">
+            <button
+              type="button"
+              class="close"
+              data-dismiss="alert"
+              aria-hidden="true"
+            >
+              &times;
+            </button>
+            {{ success_message }}
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- Add a form element with method and action -->
+    <form method="post">
+      <div class="container" style="margin-bottom: 15px">
+        <div class="row">
+          <div class="col-xs-12 mx-auto">
+            <label for="voter_id"> Voters ID: </label>
+            <input
+              type="number"
+              name="voter_id"
+              id="voter_id"
+              oninput="javascript: if (this.value.length > 5) this.value = this.value.slice(0, 5);"
+              required
+            />
+          </div>
+        </div>
+      </div>
+
+      {% for position_id, position_data in candidates_by_positions.items() %}
+      <div
+        class="w3-container"
+        style="display: flex; align-items: center"
+      ></div>
+      <div
+        class="w3-card-2"
+        style="
+          margin: auto;
+          max-width: 1100px;
+          padding: 10px;
+          margin-bottom: 20px;
+        "
+      >
+        <div class="w3-container">
+          <h4>{{ position_data["candidates"][0]["position_name"] }}</h4>
+          <hr />
+          <div class="w3-cell-row">
+            <div class="w3-container w3-cell">
+              {% if position_data["max_vote"] == 1 %}
+              <p>Select only 1 candidate.</p>
+              {% else %}
+              <p>Select up to {{ position_data["max_vote"] }} candidates.</p>
+              {% endif %}
+            </div>
+            <div class="w3-container w3-cell">
+              <button
+                type="button"
+                class="w3-green w3-right"
+                style="border: 0; padding: 7px"
+                onclick="resetSelection('{{ position_id }}')"
+              >
+                <i class="fa-solid fa-arrows-rotate"></i>
+                Reset
+              </button>
+            </div>
+          </div>
+        </div>
+        {% for candidate in position_data["candidates"] %}
+        <div
+          class="w3-container"
+          style="
+            display: flex;
+            align-items: center;
+            margin: auto;
+            margin-bottom: 15px;
+          "
+        >
+          {% if position_data["max_vote"] == 1 %} <input style="margin-right:
+          15px" type="radio" name="position_{{ position_id }}_options" value="{{
+          candidate.id }}" onclick="checkVoteLimit('{{ position_id }}', {{
+          position_data["max_vote"] }})" /> {% else %} <input
+          style="margin-right: 15px" type="checkbox" name="position_{{
+          position_id }}_options" value="{{ candidate.id }}"
+          onclick="checkVoteLimit('{{ position_id }}', {{
+          position_data["max_vote"] }})" /> {% endif %}
+
+          <!-- Modal -->
+          <div
+            id="mymodaledit{{candidate.id}}"
+            class="modal fade"
+            tabindex="-1"
+            role="dialog"
+            aria-labelledby="myModalLabel"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">
+                    &times;
+                  </button>
+                  <h4 class="modal-title">Candidate Platform</h4>
+                </div>
+                <div class="modal-body">
+                  <p>CANDIDATE NAME: {{candidate.name}}</p>
+                  <p>CANDIDATE POSITION: {{candidate.position_name}}</p>
+                  <hr />
+                  <p>CANDIDATE BACKGROUND</p>
+                  <br />
+                  <p class="modalText" style="white-space: pre-line">
+                    {{candidate.background}}
+                  </p>
+                  <hr />
+                  <p>CANDIDATE PROJECTS</p>
+                  <br />
+                  <p class="modalText" style="white-space: pre-line">
+                    {{candidate.projects}}
+                  </p>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-default"
+                    data-dismiss="modal"
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button
+            style="margin-right: 15px; border: 0; padding: 7px"
+            type="button"
+            class="btn btn-primary"
+            data-toggle="modal"
+            data-target="#mymodaledit{{candidate.id}}"
+          >
+            <i class="fa-solid fa-magnifying-glass"></i> Platform
+          </button>
+          <p style="margin: 0">{{ candidate.name }}</p>
+        </div>
+        {% endfor %}
+      </div>
+      {% endfor %}
+      <div style="display: flex; margin: 20px; justify-content: center">
+        <div class="text-center">
+          <button
+            type="submit"
+            class="btn btn-primary"
+            style="margin-top: 15px"
+          >
+            Submit Vote
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <script
+      type="text/javascript"
+      src="{{url_for('static', filename='js/jquery-3.2.1.min.js')}}"
+    ></script>
+    <script
+      type="text/javascript"
+      src="{{url_for('static', filename='js/bootstrap.js')}}"
+    ></script>
+
+    <script>
+      var selectedVotes = {};
+
+      function checkVoteLimit(positionId, maxVote) {
+        var positionKey = "position_" + positionId;
+        var selectedOptions = document.getElementsByName(
+          positionKey + "_options"
+        );
+
+        var selectedCount = 0;
+        var lastSelectedOption = null;
+
+        for (var i = 0; i < selectedOptions.length; i++) {
+          if (selectedOptions[i].checked) {
+            selectedCount++;
+            lastSelectedOption = selectedOptions[i];
+          }
+        }
+
+        if (selectedCount > maxVote) {
+          alert("You have exceeded the maximum vote limit for this position.");
+
+          // Uncheck the last selected option
+          if (lastSelectedOption) {
+            lastSelectedOption.checked = false;
+          }
+        } else {
+          // Update the selection
+          selectedVotes[positionKey] = event.target;
+
+          // Enable all options
+          for (var i = 0; i < selectedOptions.length; i++) {
+            selectedOptions[i].disabled = false;
+          }
+
+          // Disable unchecked options when the limit is reached
+          for (var i = 0; i < selectedOptions.length; i++) {
+            if (!selectedOptions[i].checked) {
+              selectedOptions[i].disabled = selectedCount >= maxVote;
+            }
+          }
+        }
+      }
+
+      function resetSelection(positionId) {
+        var checkboxes = document.getElementsByName(
+          "position_" + positionId + "_options"
+        );
+
+        // Uncheck all checkboxes
+        checkboxes.forEach(function (checkbox) {
+          checkbox.checked = false;
+        });
+
+        // Enable all checkboxes
+        checkboxes.forEach(function (checkbox) {
+          checkbox.disabled = false;
+        });
+
+        // Clear the selectedVotes for this position
+        var positionKey = "position_" + positionId;
+        selectedVotes[positionKey] = null;
+      }
+    </script>
+  </body>
+</html>

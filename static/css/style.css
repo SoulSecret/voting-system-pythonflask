@@ -1,0 +1,52 @@
+@font-face {
+  font-family: 'Akaya Telivigala';
+  src: url('/static/css/AkayaTelivigala-Regular.ttf') format('truetype');
+  /* Add other font formats if available, e.g., woff, woff2 */
+}
+*{
+    margin: 0;
+    padding: 0;
+}
+body { 
+    font-family: 'Akaya Telivigala', serif !important;
+    font-size: 22px !important
+}
+h5{
+    font-size: 22px !important
+}
+.modalText{
+    font-size: 20px !important;
+}
+.modal-body {
+  max-height: 500px; /* Set a maximum height for the modal body */
+  overflow-y: auto;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  --moz-appearance: textfield;
+}
+a{
+  font-size: 22px;
+}
+@media screen and (max-width: 580px) {
+body{
+  font-size: 17px !important
+}
+a{
+  font-size: 17px !important
+}
+h1{
+  font-size: 17px !important
+}
+h5{
+    font-size: 17px !important
+}
+.modalText{
+    font-size: 15px !important;
+}
+}

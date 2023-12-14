@@ -1,0 +1,26 @@
+*{
+    margin: 0;
+}
+body { 
+    font-family: 'Akaya Telivigala', cursive !important;
+    font-size: 22px !important
+}
+h5{
+    font-size: 22px !important
+}
+.modalText{
+    font-size: 20px !important;
+}
+.modal-body {
+  max-height: 500px; /* Set a maximum height for the modal body */
+  overflow-y: auto;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  --moz-appearance: textfield;
+}

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Voting System Login</title>
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='css/style1.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='css/w3.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='css/all.min.css')}}"
+    />
+  </head>
+  <body>
+    <div class="w3-bar w3-purple w3-padding w3-card">
+      <div class="w3-bar-item" style="letter-spacing: 4px">Voting System</div>
+    </div>
+    <div class="wrapper" style="margin-top: 80px">
+      <div class="form-box login">
+        <div class="top">
+          <h2>Login</h2>
+          {% with messages = get_flashed_messages(with_categories=true) %} {% if
+          messages %}
+          <ul class="flash-messages">
+            {% for category, message in messages %}
+            <li style="font-size: 15px" class="{{ category }}">
+              {{ message }}
+            </li>
+            {% endfor %}
+          </ul>
+          {% endif %} {% endwith %}
+        </div>
+        <form method="POST" action="{{ url_for('login') }}">
+          <div class="input-box">
+            <span class="icon"><i class="fa-solid fa-user"></i></span>
+            <input type="text" name="username" id="username" required />
+            <label>Username:</label>
+          </div>
+          <div class="input-box">
+            <span class="icon"><i class="fa-solid fa-lock"></i></span>
+            <input type="password" name="password" id="password" required />
+            <label>Password:</label>
+          </div>
+          <button type="submit" class="btn w3-purple">Login</button>
+        </form>
+      </div>
+    </div>
+
+    <script
+      type="text/javascript"
+      src="{{url_for('static', filename='js/script.js')}}"
+    ></script>
+  </body>
+</html>

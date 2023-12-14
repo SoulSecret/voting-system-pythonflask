@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='css/bootstrap.min.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='css/style3.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='css/all.min.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='css/w3.css')}}"
+    />
+  </head>
+  <body>
+    <div class="sidebar">
+      <div class="logo"></div>
+      <ul class="menu">
+        <p>{{ user }}</p>
+        <br /><br />
+        <span>Reports</span>
+        <li class="active">
+          <a href="{{ url_for('dashboard') }}">
+            <i class="fas fa-tachometer-alt"></i>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li>
+          <a href="{{url_for('candidatetally')}}">
+            <i class="fa-solid fa-lock"></i>
+            <span>Votes</span>
+          </a>
+        </li>
+        <span>Manage</span>
+        <li>
+          <a href="{{url_for('votes')}}">
+            <i class="fas fa-users"></i>
+            <span>Voters</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="{{ url_for('newposition') }}">
+            <i class="fas fa-list"></i>
+            <span>Positions</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="{{ url_for('candidates') }}">
+            <i class="fab fa-black-tie"></i>
+            <span>Candidates</span>
+          </a>
+        </li>
+
+        <span>Settings</span>
+        {% for row in e_title %}
+        <li>
+          <a
+            href="/updatetitle/{{row.0}}"
+            data-toggle="modal"
+            data-target="#mymodaltitle{{row.0}}"
+            ><i class="fas fa-cog"></i> <span>Election Title</span></a
+          >
+        </li>
+        <li class="logout">
+          <a href="{{ url_for('logout') }}">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Logout</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div
+      id="mymodaltitle{{row.0}}"
+      class="modal fade"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="myModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">
+              &times;
+            </button>
+            <h4 class="modal-title">Edit Election Title</h4>
+          </div>
+          <div class="modal-body">
+            <form action="{{url_for('updatetitle')}}" method="POST">
+              <input type="hidden" name="id" value="{{row.0}}" />
+              <div class="form-group">
+                <label>Election Title:</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="e_titles"
+                  value="{{row.1}}"
+                />
+              </div>
+              <div class="form-group">
+                <button class="btn btn-primary" type="submit">
+                  Update Data
+                </button>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+    <div class="main--content">
+      <div class="header--wrapper">
+        <div class="menu-icon">
+          <i class="fas fa-bars"></i>
+        </div>
+        <div class="header--title">
+          <h2>Voting System</h2>
+        </div>
+        <div class="user--info">
+          <img src="/static/OU.jpg" alt="" />
+        </div>
+      </div>
+
+      <div class="card--container">
+        <h2 class="main--title"><b>Dashboard</b></h2>
+        <div class="card--wrapper">
+          <div class="payment--card light-red">
+            <div class="card--header">
+              <div class="amount">
+                <span class="title">No. of Positions</span>
+                <span class="amount--value">{{position_count}}</span>
+              </div>
+              <i class="fas fa-list icon"></i>
+            </div>
+            <span class="card--detail">
+              <a href="{{url_for('newposition')}}">
+                More Information <i class="fa-solid fa-arrow-right"></i>
+              </a>
+            </span>
+          </div>
+
+          <div class="payment--card light-green">
+            <div class="card--header">
+              <div class="amount">
+                <span class="title">No. of Candidates</span>
+                <span class="amount--value">{{candidate_count}}</span>
+              </div>
+              <i class="fab fa-black-tie icon dark-purple"></i>
+            </div>
+            <span class="card--detail">
+              <a href="{{url_for('candidates')}}">
+                More Information <i class="fa-solid fa-arrow-right"></i>
+              </a>
+            </span>
+          </div>
+
+          <div class="payment--card light-purple">
+            <div class="card--header">
+              <div class="amount">
+                <span class="title">Total Voters</span>
+                <span class="amount--value">{{voters_count}}</span>
+              </div>
+              <i class="fas fa-users icon dark-green"></i>
+            </div>
+            <span class="card--detail">
+              <a href="{{url_for('votes')}}">
+                More Information <i class="fa-solid fa-arrow-right"></i>
+              </a>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tabular--wrapper">
+        <h3 class="main--title"><b>Candidates Tally</b></h3>
+        <div class="card-tally">
+          {% for row in votetally %}
+          <div class="payment--card light-purple">
+            <div class="card--header">
+              <div class="amount">
+                <span class="title"
+                  >No. of Candidates in <br />{{ row.0 }}</span
+                >
+                <span class="amount--value">{{ row.1 }}</span>
+              </div>
+              <i class="fas fa-users icon dark-green"></i>
+            </div>
+            <span class="card--detail">
+              <a
+                href="#"
+                data-toggle="modal"
+                data-target="#mymodalcandidate_{{ row.0 | replace(' ', '_') }}"
+              >
+                More Information <i class="fa-solid fa-arrow-right"></i>
+              </a>
+            </span>
+          </div>
+
+          <div
+            id="mymodalcandidate_{{ row.0 | replace(' ', '_') }}"
+            class="modal fade"
+            tabindex="-1"
+            role="dialog"
+            aria-labelledby="myModalLabel"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog modal-dialog-scrollable modal-md">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">
+                    &times;
+                  </button>
+                  <h4 class="modal-title">Candidates for {{ row.0 }}</h4>
+                </div>
+                <div class="modal-body">
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th>Name</th>
+                        <th>Total Votes</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for candidate in candidates %} {% if row.0 ==
+                      candidate.2 %}
+                      <tr>
+                        <td>{{ candidate.1 }}</td>
+                        <td>{{ candidate.3 }}</td>
+                      </tr>
+                      {% endif %} {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-default"
+                    data-dismiss="modal"
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <script
+      type="text/javascript"
+      src="{{url_for('static', filename='js/jquery-3.2.1.min.js')}}"
+    ></script>
+    <script
+      type="text/javascript"
+      src="{{url_for('static', filename='js/bootstrap.js')}}"
+    ></script>
+
+    <script type="text/javascript">
+      $(function () {
+        $(".bars li .bar").each(function (key, bar) {
+          var percentage = $(this).data("percentage");
+          $(this).animate(
+            {
+              height: percentage + "%",
+            },
+            1000
+          );
+        });
+      });
+
+      $(document).ready(function () {
+        $(".menu-icon").click(function () {
+          $("body").toggleClass("menu-open");
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Candidates</title>
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='css/bootstrap.min.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='css/style3.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='css/all.min.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='css/w3.css')}}"
+    />
+  </head>
+  <body>
+    <div class="sidebar">
+      <div class="logo"></div>
+      <ul class="menu">
+        <p>{{ user }}</p>
+        <span>Reports</span>
+        <li class="active">
+          <a href="{{ url_for('dashboard') }}">
+            <i class="fas fa-tachometer-alt"></i>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li>
+          <a href="{{url_for('candidatetally')}}">
+            <i class="fa-solid fa-lock"></i>
+            <span>Votes</span>
+          </a>
+        </li>
+        <span>Manage</span>
+        <li>
+          <a href="{{url_for('votes')}}">
+            <i class="fas fa-users"></i>
+            <span>Voters</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="{{ url_for('newposition') }}">
+            <i class="fas fa-list"></i>
+            <span>Positions</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="{{ url_for('candidates') }}">
+            <i class="fab fa-black-tie"></i>
+            <span>Candidates</span>
+          </a>
+        </li>
+
+        <li class="logout">
+          <a href="{{ url_for('logout') }}">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Logout</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="main--content">
+      <div class="header--wrapper">
+        <div class="menu-icon">
+          <i class="fas fa-bars"></i>
+        </div>
+        <div class="header--title">
+          <h2>Voting System</h2>
+        </div>
+        <div class="user--info">
+          <img src="/static/OU.jpg" alt="" />
+        </div>
+      </div>
+      {%with messages = get_flashed_messages()%} {%if messages%} {% for message
+      in messages %}
+
+      <div class="alert alert-dismissable w3-green" role="alert">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="alert"
+          aria-label="close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+        {{message}}
+      </div>
+
+      {%endfor%} {%endif%} {%endwith%}
+      <div class="w3-card w3-white" style="border-radius: 10px; padding: 10px">
+        <div class="w3-container" style="width: auto">
+          <h4 style="color: purple"><b>Candidate List</b></h4>
+          <div class="pull-right">
+            <button
+              class="btn btn-success w3-green"
+              data-toggle="modal"
+              data-target="#myModal"
+              style="max-width: 100px"
+            >
+              <i class="fa-solid fa-plus"></i> Add New
+            </button>
+          </div>
+        </div>
+
+        <div
+          id="myModal"
+          class="modal fade"
+          tabindex="-1"
+          role="dialog"
+          aria-labelledby="myModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                  &times;
+                </button>
+                <h4 class="modal-title">Please Insert Data</h4>
+              </div>
+              <div class="modal-body">
+                <form action="{{url_for('insert')}}" method="POST">
+                  <div class="form-group">
+                    <label>Name:</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="name"
+                      value=""
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label>Position: </label>
+                    <select id="position_id" name="position_id">
+                      {% for pos in position %}
+                      <option value="{{ pos.0 }}">{{ pos.1 }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label>Background:</label>
+                    <textarea
+                      class="form-control"
+                      name="background"
+                      style="
+                        min-height: 200px;
+                        min-width: 570px;
+                        max-width: 570px;
+                        max-height: 400px;
+                      "
+                    ></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label>Projects:</label>
+                    <textarea
+                      class="form-control"
+                      name="projects"
+                      style="
+                        min-height: 200px;
+                        min-width: 570px;
+                        max-width: 570px;
+                        max-height: 400px;
+                      "
+                    ></textarea>
+                  </div>
+                  <div class="form-group">
+                    <button class="btn btn-primary" type="submit">
+                      Add Candidate
+                    </button>
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-default"
+                  data-dismiss="modal"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Position</th>
+              <th>Full Name</th>
+              <th>Platform</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in candidates %}
+            <tr>
+              <td>{{row.6}}</td>
+              <td>{{row.2}}</td>
+              <td>
+                <button
+                  style="margin-right: 15px; border: 0; padding: 7px"
+                  type="button"
+                  class="btn btn-primary"
+                  data-toggle="modal"
+                  data-target="#mymodalplatform{{row.0}}"
+                >
+                  <i class="fa fa-search"></i> Platform
+                </button>
+              </td>
+              <td>
+                <a
+                  href="/update/{{row.0}}"
+                  class="btn btn-warning"
+                  data-toggle="modal"
+                  data-target="#mymodaledit{{row.0}}"
+                  ><i class="fa-solid fa-pen-to-square"></i> Edit</a
+                >
+                <a
+                  href="/delete/{{row.0}}"
+                  class="btn btn-danger"
+                  onclick="return confirm('Are you sure to delete?')"
+                  ><i class="fa-solid fa-trash-can"></i> Delete</a
+                >
+              </td>
+            </tr>
+            <!-- Modal -->
+            <div
+              id="mymodalplatform{{row.0}}"
+              class="modal fade"
+              tabindex="-1"
+              role="dialog"
+              aria-labelledby="myModalLabel"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog modal-dialog-scrollable modal-md">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                      &times;
+                    </button>
+                    <h4 class="modal-title">Candidate Platform</h4>
+                  </div>
+                  <div class="modal-body">
+                    <p>CANDIDATE NAME: {{row.2}}</p>
+                    <p>CANDIDATE POSITION: {{row.6}}</p>
+                    <hr />
+                    <p>CANDIDATE BACKGROUND</p>
+                    <br />
+                    <p class="modalText" style="white-space: pre-line">
+                      {{row.3}}
+                    </p>
+                    <hr />
+                    <p>CANDIDATE PROJECTS</p>
+                    <br />
+                    <p class="modalText" style="white-space: pre-line">
+                      {{row.4}}
+                    </p>
+                  </div>
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-default"
+                      data-dismiss="modal"
+                    >
+                      Close
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Edit Candidate -->
+            <div
+              id="mymodaledit{{row.0}}"
+              class="modal fade"
+              tabindex="-1"
+              role="dialog"
+              aria-labelledby="myModalLabel"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog modal-dialog-scrollable modal-md">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                      &times;
+                    </button>
+                    <h4 class="modal-title">Edit Data</h4>
+                  </div>
+                  <div class="modal-body">
+                    <form action="{{ url_for('update') }}" method="POST">
+                      <div class="form-group">
+                        <label>Name:</label>
+                        <input type="hidden" name="id" value="{{row.0}}" />
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="name"
+                          value="{{row.2}}"
+                        />
+                      </div>
+                      <div class="form-group">
+                        <label>Position: </label>
+                        <select id="position_id" name="position_id">
+                          <option value="{{ row.1 }}">{{ row.6 }}</option>
+                          {% for pos in position %}
+                          <option value="{{ pos.0 }}">{{ pos.1 }}</option>
+                          {% endfor %}
+                        </select>
+                      </div>
+                      <div class="form-group">
+                        <label>Background:</label>
+                        <textarea
+                          class="form-control"
+                          name="background"
+                          style="
+                            min-height: 200px;
+                            max-width: 570px;
+                            max-height: 400px;
+                          "
+                        >
+{{ row.3 }}</textarea
+                        >
+                      </div>
+                      <div class="form-group">
+                        <label>Projects:</label>
+                        <textarea
+                          class="form-control"
+                          name="projects"
+                          style="
+                            min-height: 200px;
+                            max-width: 570px;
+                            max-height: 400px;
+                          "
+                        >
+  {{ row.4 }}</textarea
+                        >
+                      </div>
+                      <div class="form-group">
+                        <button class="btn btn-primary" type="submit">
+                          Update Data
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-default"
+                      data-dismiss="modal"
+                    >
+                      Close
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <script type="text/javascript">
+        $(function () {
+          $(".bars li .bar").each(function (key, bar) {
+            var percentage = $(this).data("percentage");
+            $(this).animate(
+              {
+                height: percentage + "%",
+              },
+              1000
+            );
+          });
+        });
+      </script>
+
+      <script>
+        $(document).ready(function () {
+          $(".menu-icon").click(function () {
+            $("body").toggleClass("menu-open");
+          });
+        });
+      </script>
+      <script
+        type="text/javascript"
+        src="{{url_for('static', filename='js/jquery-3.2.1.min.js')}}"
+      ></script>
+      <script
+        type="text/javascript"
+        src="{{url_for('static', filename='js/bootstrap.js')}}"
+      ></script>
+    </div>
+  </body>
+</html>
